@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-sm btn-default" href="{{ path('createuser') }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neuer Nutzer</a>
+        </div>
+
+        <div class="col-xs-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nachname</th>
+                    <th>Vorname</th>
+                    <th>Mail</th>
+                    <th>Rolle</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class='clickable-row' data-href='{{ path('showProfile', {'userid': user.id}) }}'>
+                    <td>{{ user.nachname }}</td>
+                    <td>{{ user.vorname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.isAdmin() %}
+                            Admin
+                        {% else %}
+                            User
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.enabled %}
+                            <span class="glyphicon glyphicon-ok glyphicon-green" aria-hidden="true"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove glyphicon-red" aria-hidden="true"></span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".clickable-row").click(function() {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-7">
+            <li>Username: {{ user.username }}</li>
+            <li>Name: {{ user.vorname }} {{ user.nachname }}</li>
+            <li>Zuletzt Online: {{ user.lastlogin | ago }}</li>
+            <li>Rolle:
+                {% if user.isAdmin() %}
+                    Admin
+                {% else %}
+                    User
+                {% endif %}
+            </li>
+            <li>Aktiv:
+                {% if user.enabled %}
+                    <span class="glyphicon glyphicon-ok glyphicon-green" aria-hidden="true"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-remove glyphicon-red" aria-hidden="true"></span>
+                {% endif %}
+            </li>
+        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="btn-group" role="group" aria-label="...">
+                <a href="{{ path('useredit', {'userid': user.id}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="User bearbeiten" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                <a href="{{ path('changePassword', {'userid': user.id}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="Userpasswort ändern" class="btn btn-default"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span></a>
+                {% if user.enabled %}
+                    <a href="{{ path('changeUserActivation', {'userid': user.id}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="User deaktivieren" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                {% else %}
+                    <a href="{{ path('changeUserActivation', {'userid': user.id}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="User aktivieren" class="btn btn-success"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

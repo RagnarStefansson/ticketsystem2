@@ -1,0 +1,46 @@
+#header {
+    background-color: #404040;
+    color: white;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#header .col-xs-12 {
+    padding: 0 !important;
+}
+
+#search{
+    float: right;
+}
+
+body {
+    background-color: #404040;
+    color: white;
+}
+
+#content {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    background-color: #222;
+    color: white;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+}
+
+.glyphicon-green {
+    color: #24802b;
+}
+.glyphicon-red {
+    color: #80191a;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #222;
+}

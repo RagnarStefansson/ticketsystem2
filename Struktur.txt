@@ -1,0 +1,22 @@
+Tabellen:
+
+User:
+U_ID, vorname, nachname, e_mail, password, role, state, last_login
+Aufbau: ID, Vorname, Nachname, Mail, Kennwort, Gruppe, Status, letzter Login
+______________________________
+Kunden:
+K_ID, name, adress, contact, V_ID, T_ID
+Aufbau: ID, Name, Kontakt, Vertragsart, Tickets des Kunden
+_____________________________
+Tickets:
+T_ID, titel, K_ID, state, U_ID, text, times, time_remaining
+Aufbau: ID, Kunde, Status, Verantwortlicher, Problembeschreibung, verbuchte Zeiten, Eskalationszeit
+_____________________________
+Probleme:
+P_ID, titel, tags, K_ID, text
+Aufbau:ID, Titel, Tags, Kunde, Freitext
+____________________________
+Vertragsarten:
+V_ID, v_art, service_level
+Aufbau:ID, Vertragsart(Wartungsvertrag/Kontingent/freier Kunde), Servicelevel/Reaktionszeiten
+______________________________

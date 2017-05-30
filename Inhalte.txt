@@ -1,0 +1,76 @@
+Übersicht:
+- meine Tickets
+- eskalierte Tickets
+- bald eskalierende Tickets
+- offene Tickets
+-------------------
+neues Ticket:
+- Kunde
+- zeitpunkt
+- verantwortlicher Techniker
+- Beschreibung
+- erreichbar unter
+- Mail/Telefonisch
+- bearbeitungszeit
+- Eskalationszeit
+--------------------
+offene tickets
+- Kunde
+- Ticketstatus
+- Techniker
+- Problem
+- erreichbar unter
+- verbuchte Zeit
+- Eskalationszeit
+-------------------
+eskalierte tickets:
+- Kunde
+- Warnung
+- Techniker
+- Problem
+- erreichbar unter
+- verbuchte Zeit
+--------------------
+abgeschlossene tickets:
+- Kunde
+- Ticketstatus
+- Techniker
+- Problem
+- erreichbar unter
+- verbuchte Zeit
+- Zeitpunkt der Schließung
+- erfolgreich geschlossen?
+---------------------
+kundenübersicht:
+- Kunde
+- ID
+- Adresse
+- Kontaktdaten
+- Vertragsart
+-------------------
+Kunde anlegen:
+- Kunde
+- ID
+- Adresse
+- Kontaktdaten
+- Vertragsart
+------------
+Bekannte probleme:
+- Titel
+- ID
+- Kunde
+- themenbezogene Tags
+- Freitext
+-----------------------------------
+Suche:
+- Tags
+- Kunde
+------------------
+User verwalten:
+- Userübersicht
+- User anlegen
+- User ändern/löschen
+- Userkennwort zurücksetzen
+--------------
+Einstellungen
+- Kennwort ändern
