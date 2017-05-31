@@ -32,12 +32,27 @@ class Tickets
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private $status;
+    private $titel;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $contact;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
      */
     private $uid;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="text", nullable=false)
@@ -45,9 +60,17 @@ class Tickets
     private $freeform;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=false)
      */
     private $times;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $status;
+
+
+
 
     /**
      * Get tId
@@ -177,5 +200,101 @@ class Tickets
     public function getTimes()
     {
         return $this->times;
+    }
+
+    /**
+     * Set titel
+     *
+     * @param string $titel
+     *
+     * @return Tickets
+     */
+    public function setTitel($titel)
+    {
+        $this->titel = $titel;
+
+        return $this;
+    }
+
+    /**
+     * Get titel
+     *
+     * @return string
+     */
+    public function getTitel()
+    {
+        return $this->titel;
+    }
+
+    /**
+     * Set contact
+     *
+     * @param string $contact
+     *
+     * @return Tickets
+     */
+    public function setContact($contact)
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Get contact
+     *
+     * @return string
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     *
+     * @return Tickets
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Tickets
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
