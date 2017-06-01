@@ -40,6 +40,25 @@ class User extends BaseUser
         parent::__construct();
         // your own logic
     }
+    /**
+     * Set vorname
+     *
+     * @return string
+     */
+    public function setName()
+    {
+        return $this->vorname;
+    }
+
+    /**
+     * Get vorname
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->vorname;
+    }
 
     /**
      * Set vorname
@@ -54,6 +73,7 @@ class User extends BaseUser
 
         return $this;
     }
+
 
     /**
      * Get vorname

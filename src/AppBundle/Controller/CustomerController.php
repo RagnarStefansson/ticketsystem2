@@ -91,7 +91,7 @@ class CustomerController extends Controller
 
         if($form->isSubmitted() && $form->isValid()) {
             $newUserData = $form->getData();
-
+            $em = $this->getDoctrine()->getManager();
 
             if($em->getRepository('AppBundle:Customer')->isCustomernameUnique($newUserData['email'])) {
 
