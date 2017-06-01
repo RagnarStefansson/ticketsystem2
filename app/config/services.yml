@@ -15,3 +15,9 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - {name: twig.extension}
+    app.ticketextension:
+            class: AppBundle\Twig\TicketExtension
+            public: false
+            arguments: ["@doctrine.orm.entity_manager", '@fos_user.user_manager']
+            tags:
+                - {name: twig.extension}

@@ -52,7 +52,7 @@ class DefaultController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/ticket", name="ticket")
+     * @Route("/tickettest", name="ticket")
      */
     public function ticketAction()
     {

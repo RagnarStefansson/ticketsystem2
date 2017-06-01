@@ -26,7 +26,7 @@ class TicketController extends Controller
     public function ticketListAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $tickets = $em->getRepository('AppBundle:Ticket')->findAllTicketsOrderedByTime();
+        $tickets = $em->getRepository('AppBundle:Tickets')->findAll();
 
         return $this->render('ticket/ticketmanagement.html.twig', [
             'tickets' => $tickets,
@@ -130,7 +130,7 @@ class TicketController extends Controller
      */
     public function showTicketAction($tid) {
         $em = $this->getDoctrine()->getManager();
-        $ticket = $em->getRepository('AppBundle:Ticket')->find($tid);
+        $ticket = $em->getRepository('AppBundle:Tickets')->find($tid);
 
         return $this->render("ticket/ticket.html.twig", array(
             'ticket' => $ticket

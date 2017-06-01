@@ -28,9 +28,17 @@ class CustomerRepository extends EntityRepository
     }
 
     public function getContractName($vid) {
+    return $this->getEntityManager()
+        ->createQuery(
+            'SELECT c.vname FROM AppBundle:Contract c WHERE c.vid=' . $vid
+        )
+        ->getResult();
+}
+
+    public function getCustomerName($kid) {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT c.vname FROM AppBundle:Contract c WHERE c.vid=' . $vid
+                'SELECT c.vname FROM AppBundle:Cusomer c WHERE c.kid=' . $kid
             )
             ->getResult();
     }
