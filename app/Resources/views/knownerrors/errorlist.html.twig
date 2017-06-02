@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-sm btn-default" href="{{ path('createerror') }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neuer Fehler</a>
+        </div>
+
+        <div class="col-xs-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Kunde</th>
+                    <th>Titel</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class='clickable-row' data-href='{{ path('showProfile', {'userid': user.id}) }}'>
+                    <td>{{ trouble.kid }}</td>
+                    <td>{{ trouble.titel }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".clickable-row").click(function() {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+{% endblock %}
