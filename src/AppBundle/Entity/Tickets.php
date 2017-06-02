@@ -12,7 +12,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TicketRepository")
  * @ORM\Table(name="Tickets")
  */
 class Tickets
@@ -50,7 +50,7 @@ class Tickets
     private $phone;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $email;
 
@@ -68,6 +68,11 @@ class Tickets
      * @ORM\Column(type="string", nullable=false)
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="array", nullable=false)
+     */
+    private $vorgang;
 
 
 
@@ -296,5 +301,29 @@ class Tickets
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set vorgang
+     *
+     * @param string $vorgang
+     *
+     * @return Tickets
+     */
+    public function setVorgang($vorgang)
+    {
+        $this->vorgang = $vorgang;
+
+        return $this;
+    }
+
+    /**
+     * Get vorgang
+     *
+     * @return string
+     */
+    public function getVorgang()
+    {
+        return $this->vorgang;
     }
 }

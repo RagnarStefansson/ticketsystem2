@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 class TicketController extends Controller
 {
@@ -98,7 +99,8 @@ class TicketController extends Controller
                     'warten auf Kunde' => 3,
                     'warten auf Drittanbieter' => 4,
                     'warten' => 5,
-                    'abgeschlossen' => 6,
+                    'ekaliert' => 6,
+                    'abgeschlossen' => 7,
                 ),
             ))
             ->add('save', SubmitType::class, array('label' => 'Ticket Erstellen'))
@@ -109,6 +111,7 @@ class TicketController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $ticket = $form->getData();
 
+            $ticket->setVorgang(array());
             // TicketObjekt in Datenbank speichern
             $em->persist($ticket);
             $em->flush();
@@ -121,6 +124,26 @@ class TicketController extends Controller
         return $this->render('ticket/editticket.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/ticket/delete", name="deleteTicket")
+     */
+    public function deleteTicketAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $ticket = $em->getRepository('AppBundle:Tickets')->find($request->get('tid'));
+
+        $em->remove($ticket);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Ticket wurde erfolgreich gelöscht'
+        );
+
+        return $this->redirectToRoute('ticketmanagement');
     }
 
     /**
@@ -204,7 +227,8 @@ class TicketController extends Controller
                     'warten auf Kunde' => 3,
                     'warten auf Drittanbieter' => 4,
                     'warten' => 5,
-                    'abgeschlossen' => 6,
+                    'ekaliert' => 6,
+                    'abgeschlossen' => 7,
                 ),
             ))
             ->add('save', SubmitType::class, array('label' => 'Ticket Erstellen'))
@@ -229,4 +253,119 @@ class TicketController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @param $tid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/ticket/process/{tid}", name="createprocess")
+     */
+    public function process(Request $request, $tid)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ticket = $em->getRepository('AppBundle:Tickets')->find($tid);
+
+        $userManager = $this->get('fos_user.user_manager');
+        $team = $userManager->findUsers();
+
+        $customernames = $em->getRepository('AppBundle:Customer')->findAll();
+
+        foreach($customernames as $names) {
+            $customers[$names->getName()] = $names->getKid();
+        }
+
+
+        foreach($team as $worker) {
+            $choices[$worker->getNachname().', '.$worker->getVorname()] = $worker->getId();
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('titel', TextType::class, array(
+                'required' => true,
+                'label' => 'Titel'
+            ))
+            ->add('freeform', TextType::class, array(
+                'required' => true,
+                'label' => 'Beschreibung'
+            ))
+            ->add('times', TextType::class, array(
+                'required' => true,
+                'label' => 'Zeiten'
+            ))
+
+            ->add('save', SubmitType::class, array('label' => 'Vorgang Erstellen'))
+            ->getForm();
+
+        $form->handleRequest($request);
+        //
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $process = $form->getData();
+
+                // Neues Vorgangsobjekt instanziieren und mit Formulardaten befüllen
+                $ProcessService = $this->get('app.ticketservice');
+
+                $ticket->setVorgang($ProcessService->createProcessArray(
+                    $ticket->getVorgang(),
+                    $process['titel'],
+                    $process['freeform'],
+                    $process['times']
+                ));
+
+            // TicketObjekt in Datenbank speichern
+            $em->persist($ticket);
+            $em->flush();
+
+            $this->addFlash('success', 'Vorgang erstellt');
+            return $this->redirectToRoute('showTicket', array('tid' => $tid));
+
+        }
+
+        return $this->render('ticket/createprocess.html.twig', array(
+            'form' => $form->createView(),
+            'ticket' => $ticket
+        ));
+    }
+
+    /**
+     * @return Response
+     * @Route("/mytickets", name="myTickets")
+     */
+    public function myTicketsAction() {
+        $em = $this->getDoctrine()->getManager();;
+
+        $tickets = $em->getRepository('AppBundle:Tickets')->getMyTickets($this->getUser()->getId());
+
+        return $this->render('ticket/ticketmanagement.html.twig', array(
+            'tickets' => $tickets
+        ));
+    }
+
+    /**
+     * @return Response
+     * @Route("/escalatedtickets", name="escalatedTickets")
+     */
+    public function escalatedTicketsAction() {
+        $em = $this->getDoctrine()->getManager();;
+
+        $tickets = $em->getRepository('AppBundle:Tickets')->getEscalatedTickets();
+
+        return $this->render('ticket/ticketmanagement.html.twig', array(
+            'tickets' => $tickets
+        ));
+    }
+
+    /**
+     * @return Response
+     * @Route("/closedtickets", name="closedTickets")
+     */
+    public function getClosedTickets() {
+        $em = $this->getDoctrine()->getManager();;
+
+        $tickets = $em->getRepository('AppBundle:Tickets')->getClosedTickets();
+
+        return $this->render('ticket/ticketmanagement.html.twig', array(
+            'tickets' => $tickets
+        ));
+    }
 }

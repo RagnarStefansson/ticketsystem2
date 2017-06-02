@@ -44,3 +44,17 @@ body {
 .table-hover > tbody > tr:hover {
     background-color: #222;
 }
+
+.modal-content {
+    background:#222 !important;
+}
+
+.modal-header {
+    border-bottom:0;
+}
+.modal-header button {
+    color:white;
+}
+.modal-footer {
+    border-top:0;
+}

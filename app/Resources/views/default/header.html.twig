@@ -18,13 +18,15 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ path('createticket') }}">Neues Ticket</a>
                         <li class="dropdown">
-                            <a href="{{ path('ticketmanagement') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Meine Tickets <span class="caret"></span></a>
+                            <a href="{{ path('ticketmanagement') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tickets <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ path('ticketmanagement') }}">offene Tickets</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="{{ path('usermanagement') }}">eskalierte Tickets</a></li>
+                                <li><a href="{{ path('myTickets') }}">meine Tickets</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="{{ path('usermanagement') }}">abgeschlossene Tickets</a></li>
+                                <li><a href="{{ path('escalatedTickets') }}">eskalierte Tickets</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ path('closedTickets') }}">geschlossene Tickets</a></li>
                             </ul>
                         </li>
                        <li> <a href="{{ path('usermanagement') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kunden <span class="caret"></span></a>

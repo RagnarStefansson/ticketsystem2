@@ -9,6 +9,8 @@ services:
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
     app.customerservice:
         class: AppBundle\Services\CustomerService
+    app.ticketservice:
+            class: AppBundle\Services\TicketService
     app.customerextension:
         class: AppBundle\Twig\CustomerExtension
         public: false

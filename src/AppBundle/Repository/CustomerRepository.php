@@ -38,7 +38,7 @@ class CustomerRepository extends EntityRepository
     public function getCustomerName($kid) {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT c.vname FROM AppBundle:Cusomer c WHERE c.kid=' . $kid
+                'SELECT c.vname FROM AppBundle:Customer c WHERE c.kid=' . $kid
             )
             ->getResult();
     }
