@@ -39,9 +39,17 @@ class UserController extends Controller
     public function showUserAction($userid) {
         $usermanager = $this->get('fos_user.user_manager');
         $user = $usermanager->findUserBy(array('id'=>$userid));
+        $em = $this->getDoctrine()->getManager();
+
+        $tickets = $em->getRepository('AppBundle:Tickets')->findBy(array(
+            'uid' => $userid
+        ), array(
+            'tid' => 'DESC'
+        ));
 
         return $this->render("user/userprofile.html.twig", array(
-            'user' => $user
+            'user' => $user,
+            'tickets' => $tickets
         ));
     }
 

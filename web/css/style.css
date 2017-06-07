@@ -58,3 +58,22 @@ body {
 .modal-footer {
     border-top:0;
 }
+
+.shortinfo {
+    list-style: none;
+    padding-left: 0;
+}
+
+.list-label {
+    font-weight: bold;
+}
+
+.processlist,
+#processinfo {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.clickable-row {
+    cursor:pointer;
+}

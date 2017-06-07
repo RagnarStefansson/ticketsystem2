@@ -138,8 +138,15 @@ class CustomerController extends Controller
         $em = $this->getDoctrine()->getManager();
         $customer = $em->getRepository('AppBundle:Customer')->find($kid);
 
+        $tickets = $em->getRepository('AppBundle:Tickets')->findBy(array(
+            'kid' => $kid
+        ), array(
+            'tid' => 'DESC'
+        ));
+
         return $this->render("customer/customerprofile.html.twig", array(
-            'customer' => $customer
+            'customer' => $customer,
+            'tickets' => $tickets
         ));
     }
 

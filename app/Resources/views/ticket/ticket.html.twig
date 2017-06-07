@@ -1,40 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block contextmenu %}
     <div class="row">
-        <div class="col-md-7">
-            <ul>
-                <li>Ticket-ID: {{ ticket.tid }}</li>
-                <li>Titel: {{ ticket.titel }}</li>
-                <li>Kunde: {{ getCustomerName(ticket.kid) }}</li>
-                <li>Ansprechpartner: {{ ticket.contact }}</li>
-                <li>Telefon/Ansprechpartner: {{ ticket.phone }}</li>
-                <li>E-Mail/Ansprechpartner:{{ ticket.email }}</li>
-                <li>Beschreibung: {{ ticket.freeform }}</li>
-                <li>Verantwortlicher: {{ getResponsibleName(ticket.uid) }}</li>
-                <li>Zeiten: {{ ticket.times }}</li>
-                <li>Status: {{ ticket.status }}</li>
-            </ul>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="btn-group" role="group" aria-label="...">
                 <a href="{{ path('ticketedit', {'tid': ticket.tid}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="Ticket bearbeiten" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                 <a href="{{ path('createprocess', {'tid': ticket.tid}) }}" type="button" data-toggle="tooltip" data-placement="bottom" title="Vorgang anhängen" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-toggle="tooltip" data-placement="bottom" title="Ticket Löschen" data-target="#myModal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
             </div>
         </div>
+    </div>
+{% endblock %}
 
-        <div class="col-md-7">
-            {% for vorgang in ticket.vorgang %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Ticket Nr. {{ ticket.tid }}: {{ ticket.titel }}</h3>
+            <div class="row">
+                <div class="col-md-3"><p><span class="list-label">Kunde:</span></p></div>
+                <div class="col-md-9"><p>{{ getCustomerName(ticket.kid) }}</p></div>
+                <div class="col-md-3"><p><span class="list-label">Ansprechpartner:</span></p></div>
+                <div class="col-md-9"><p>{{ ticket.contact }}</p></div>
+                <div class="col-md-3"><p><span class="list-label">Verantwortlicher:</span></p></div>
+                <div class="col-md-9"><p>{{ getResponsibleName(ticket.uid) }}</p></div>
+                <div class="col-md-3"><p><span class="list-label">Status:</span></p></div>
+                <div class="col-md-9"><p>{{ ticket.status }}</p></div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Beschreibung:</h3>
+            {{ ticket.freeform | raw }}
+        </div>
+
+        <div class="col-md-7 processlist">
+            <h3>Tasks:</h3>
+            {#{% for vorgang in ticket.vorgang %}
                 <li data-index="{{ loop.index0 }}" data-desc="{{ vorgang.titel }}" data-author="{{ vorgang.id }}" data-times="{{ vorgang.times }}" class="processlink">{{ vorgang.titel }} {{ vorgang.time }}</li>
-            {% endfor %}
+            {% endfor %}#}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Bezeichnung</th>
+                        <th>Autor</th>
+                        <th>Erstellt am</th>
+                        <th>Aufgewendete Zeit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vorgang in ticket.vorgang | reverse %}
+                        <tr class="processlink clickable-row" data-desc="{{ vorgang.freeform }}">
+                            <td>{{ vorgang.titel }}</td>
+                            <td>{{ vorgang.id }}</td>
+                            <td>{{ vorgang.time | date("d.m.Y \\u\\m H:i") }}</td>
+                            <td>{{ vorgang.times }} Stunden</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <div id="processinfo" class="col-md-4">
-            <ul>
-                <li>Author: <span id="process-author"></span></li>
-                <li>Zeiten: <span id="process-times"></span> Stunden</li>
-                <li>Beschreibung:<span id="process-desc"></span></li>
-            </ul>
+            <h3>Task-Beschreibung:</h3>
+            <span id="process-desc"></span>
         </div>
     </div>
     <br>
@@ -63,19 +90,28 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#processinfo ul').hide();
+            $('#processinfo').hide();
         });
         $('.processlink').click(function(){
             var desc = $(this).data('desc');
-            var author = $(this).data('author');
-            var times = $(this).data('times');
-            $('#processinfo ul').fadeOut(function(){
-                $('#process-author').empty().append(author);
-                $('#process-times').empty().append(times);
+            $('#processinfo').fadeOut(function(){
                 $('#process-desc').empty().append(desc);
             });
-            $('#processinfo ul').fadeIn();
+            $('#processinfo').fadeIn();
         });
     </script>
 
+{% endblock %}
+
+{% block infoblock %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Informationen:</h3>
+            <ul class="shortinfo">
+                <li>Telefon/Ansprechpartner: {{ ticket.phone }}</li>
+                <li>E-Mail/Ansprechpartner:{{ ticket.email }}</li>
+                <li>Zeiten: {{ ticket.times }} Stunden</li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

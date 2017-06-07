@@ -21,7 +21,7 @@
             {% for ticket in tickets %}
                 <tr class='clickable-row' data-href='{{ path('showTicket', {'tid': ticket.tid}) }}'>
                     <td>{{ ticket.tid }}</td>
-                    <td>{{ getCustomerName(trouble.kid) }}</td>
+                    <td>{{ getCustomerName(ticket.kid) }}</td>
                     <td>{{ ticket.titel }}</td>
                     <td>{{ getResponsibleName(ticket.uid) }}</td>
                 </tr>

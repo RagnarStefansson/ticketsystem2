@@ -30,4 +30,12 @@ class TicketRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getCustomerTickets()
+    {
+
+        return $this->getEntityManager($kid)
+            ->createQuery("SELECT t FROM AppBundle:Tickets t WHERE t.kid=" . '$kid')
+            ->getResult();
+    }
+
 }

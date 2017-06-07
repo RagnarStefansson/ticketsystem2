@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -83,9 +84,13 @@ class TicketController extends Controller
                 'required' => false,
                 'label' => 'E-Mail Adresse des Ansprechpartners*'
             ))
-            ->add('freeform', TextType::class, array(
+            ->add('freeform', TextareaType::class, array(
                 'required' => true,
-                'label' => 'Beschreibung'
+                'label' => 'Beschreibung',
+                'trim' => true,
+                'attr' => array('rows' => 5),
+                'data' => '<p>Beschreibung eingeben</p>'
+
             ))
             ->add('times', NumberType::class, array(
                 'required' => true,
@@ -211,9 +216,11 @@ class TicketController extends Controller
                 'required' => false,
                 'label' => 'E-Mail Adresse des Ansprechpartners*'
             ))
-            ->add('freeform', TextType::class, array(
+            ->add('freeform', TextareaType::class, array(
                 'required' => true,
-                'label' => 'Beschreibung'
+                'label' => 'Beschreibung',
+                'trim' => true,
+                'attr' => array('rows' => 5)
             ))
             ->add('times', NumberType::class, array(
                 'required' => true,
@@ -284,9 +291,12 @@ class TicketController extends Controller
                 'required' => true,
                 'label' => 'Titel'
             ))
-            ->add('freeform', TextType::class, array(
+            ->add('freeform', TextareaType::class, array(
                 'required' => true,
-                'label' => 'Beschreibung'
+                'label' => 'Beschreibung',
+                'trim' => true,
+                'attr' => array('rows' => 5),
+                'data' => '<p>Beschreibung eingeben</p>'
             ))
             ->add('times', TextType::class, array(
                 'required' => true,
@@ -351,6 +361,20 @@ class TicketController extends Controller
         $tickets = $em->getRepository('AppBundle:Tickets')->getEscalatedTickets();
 
         return $this->render('ticket/ticketmanagement.html.twig', array(
+            'tickets' => $tickets
+        ));
+    }
+
+    /**
+     * @return Response
+     * @Route("/customertickets", name="customerTickets")
+     */
+    public function customerTicketsAction() {
+        $em = $this->getDoctrine()->getManager();;
+
+        $tickets = $em->getRepository('AppBundle:Tickets')->getCustomerTickets();
+
+        return $this->render('user/userprofile.html.twig', array(
             'tickets' => $tickets
         ));
     }
