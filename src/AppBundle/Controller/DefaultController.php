@@ -14,11 +14,20 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
+        $currentUser = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $openTickets = $em->getRepository("AppBundle:Tickets")->findBy(array("status" => 1));
+        $myTickets = $em->getRepository("AppBundle:Tickets")->findBy(array("uid" => $currentUser->getId()));
+        $escalatedTickets = $em->getRepository("AppBundle:Tickets")->findBy(array("status" => 6));
+
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'openTickets' => $openTickets,
+            'myTickets' => $myTickets,
+            'escalatedTickets' => $escalatedTickets
         ]);
     }
 
@@ -45,9 +54,15 @@ class DefaultController extends Controller
         var_dump($user->getUsername());
         die;*/
 
-        return $this->render('default/helloworld.html.twig', array(
+        /*return $this->render('default/helloworld.html.twig', array(
             'word' => $name,
-        ));
+
+            $tickets = $em->getRepository('AppBundle:Tickets')->findBy(array(
+                'uid' => $userid
+            ), array(
+                'tid' => 'DESC'
+            ));
+        ));*/
     }
 
     /**
@@ -58,4 +73,6 @@ class DefaultController extends Controller
     {
         return $this->render('default/ticket.html.twig');
     }
+
+
 }

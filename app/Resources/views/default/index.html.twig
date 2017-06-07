@@ -1,10 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block contextmenu %}
-    Kontextsensitives Menü
-{% endblock %}
-
 {% block body %}
-    Main
-    <a href="{{ path('ticket') }}">zum Ticket</a>
+    {% if myTickets | length  > 0 %}
+        <div class="col-xs-12">
+        <h3>Meine Tickets</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Ticket-ID</th>
+                <th>Kunde</th>
+                <th>Titel</th>
+                <th>Verantwortlicher</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ticket in myTickets %}
+                <tr class='clickable-row' data-href='{{ path('showTicket', {'tid': ticket.tid}) }}'>
+                    <td>{{ ticket.tid }}</td>
+                    <td>{{ getCustomerName(ticket.kid) }}</td>
+                    <td>{{ ticket.titel }}</td>
+                    <td>{{ getResponsibleName(ticket.uid) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% if openTickets | length > 0 %}
+    <div class="col-xs-12">
+        <h3>Offene Tickets</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Ticket-ID</th>
+                <th>Kunde</th>
+                <th>Titel</th>
+                <th>Verantwortlicher</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ticket in openTickets %}
+                <tr class='clickable-row' data-href='{{ path('showTicket', {'tid': ticket.tid}) }}'>
+                    <td>{{ ticket.tid }}</td>
+                    <td>{{ getCustomerName(ticket.kid) }}</td>
+                    <td>{{ ticket.titel }}</td>
+                    <td>{{ getResponsibleName(ticket.uid) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% if escalatedTickets | length > 0 %}
+    <div class="col-xs-12">
+        <h3>Eskalierte Tickets</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Ticket-ID</th>
+                <th>Kunde</th>
+                <th>Titel</th>
+                <th>Verantwortlicher</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ticket in escalatedTickets %}
+                <tr class='clickable-row' data-href='{{ path('showTicket', {'tid': ticket.tid}) }}'>
+                    <td>{{ ticket.tid }}</td>
+                    <td>{{ getCustomerName(ticket.kid) }}</td>
+                    <td>{{ ticket.titel }}</td>
+                    <td>{{ getResponsibleName(ticket.uid) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
 {% endblock %}
